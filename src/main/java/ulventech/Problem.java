@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Random;
 
 public class Problem {
+	
+	public static void main(String args[]) {
+		new Problem().startProcceding(52);
+	}
 
 	public String startProcceding(final int count) {
 		List<String> list = new ArrayList<>();
