@@ -4,14 +4,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
-public class Problem {
-	
-	public static void main(String args[]) {
-		new Problem().startProcceding(52);
+import ulventech.inter.ProblemInterface;
+
+public class Problem implements ProblemInterface{
+
+	@SuppressWarnings("resource")
+	public static void main(String[] args) {
+		
+		System.out.println("Enter X : ");
+		String stringX = new Scanner(System.in).nextLine();
+		
+		if (stringX != null && Pattern.compile(REGEX).matcher(stringX).matches()) {
+			new Problem().startProcceding(Integer.parseInt(stringX));
+		}
 	}
 
+	@Override
 	public String startProcceding(final int count) {
 		List<String> list = new ArrayList<>();
 		String temp = null;
@@ -28,31 +39,25 @@ public class Problem {
 		return fileWrite(list);
 	}
 
+	@Override
 	public String fileWrite(final List<String> list) {
 		if (!list.isEmpty()) {
-			try {
-				FileWriter myWriter = new FileWriter("TEMP.txt");
+			try (FileWriter myWriter = new FileWriter(FILE_NAME)) {
 				for (String str : list) {
 					myWriter.write(str + "\n");
 				}
-				myWriter.close();
-				return "Success";
+				return SUCCESS;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		return "Failed";
+		return FAILED;
 	}
 
+	@Override
 	public String stringGenaration() {
-		int start = 48, end = 122, charSize = 100;
-		Random random = new Random();
-
-		String generatedString = random.ints(start, end + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-				.limit(charSize).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-				.toString();
-
-		return generatedString;
+		return random.ints(START, END + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(CHAR_SIZE)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 	}
 
 }

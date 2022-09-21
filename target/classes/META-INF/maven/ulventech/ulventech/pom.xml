@@ -21,5 +21,6 @@
 			<version>2.0.1-beta</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 </project>
