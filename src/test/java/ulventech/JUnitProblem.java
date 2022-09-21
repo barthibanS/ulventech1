@@ -2,6 +2,8 @@ package ulventech;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,6 +18,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class JUnitProblem {
+
+	static final String FILE_NAME = "TEMP.txt";
 	Problem problem;
 	List<String> elementlist, emptyList;
 	String fileName;
@@ -27,24 +31,17 @@ public class JUnitProblem {
 				"hrzoml0d3PUIfcFejdhvJ9fCp2PgTE1O44Y1K0STBcxuqJxBTdbNrmAx4kZyAVJh9AtdrBhaL0YJmKEzOdQzUsZtUWql4m4IcOWW",
 				"DyclQ6zSLwLAU8gC7wYnV062t9JEDsfdvGa3KAQLzltzjcltwKCD3Smqd1r46qB5zMP7QlEWabvNdSGMGdGXiOqPgmvrsgv045cl" });
 		emptyList = new ArrayList<>();
-		fileName = "TEMP.txt";
 	}
 
 	@Test
-	public void teststringGenaration() {
+	public void testStringGenaration() {
 		assertNotNull(problem.stringGenaration());
 	}
 
 	@Test
-	public void testfileWrite() {
-		assertEquals(problem.fileWrite(elementlist), "Success");
-		assertEquals(problem.fileWrite(emptyList), "Failed");
-	}
-
-	@Test
-	public void teststartProcceding() {
-		assertEquals(problem.startProcceding(230), "Success");
-		assertEquals(problem.startProcceding(0), "Failed");
+	public void testUniqueStringListCreation() {
+		assertEquals(230, problem.uniqueStringListCreation(230).size());
+		assertTrue(problem.uniqueStringListCreation(0).isEmpty());
 	}
 
 	@Test
@@ -52,11 +49,11 @@ public class JUnitProblem {
 		int size = 10;
 		String line;
 		List<String> testList = new ArrayList<>();
-		
-		assertEquals(problem.startProcceding(size), "Success");
-		
+
+		problem.fileWrite(problem.uniqueStringListCreation(size));
+
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
+			BufferedReader br = new BufferedReader(new FileReader(new File(FILE_NAME)));
 			while ((line = br.readLine()) != null) {
 				testList.add(line);
 			}

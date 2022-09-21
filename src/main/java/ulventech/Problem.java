@@ -7,27 +7,28 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import ulventech.inter.ProblemInterface;
+import ulventech.skeleton.ProblemInterface;
 
-public class Problem implements ProblemInterface{
+public class Problem implements ProblemInterface {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-		
+
 		System.out.println("Enter X : ");
 		String stringX = new Scanner(System.in).nextLine();
-		
+
 		if (stringX != null && Pattern.compile(REGEX).matcher(stringX).matches()) {
-			new Problem().startProcceding(Integer.parseInt(stringX));
+			Problem problem = new Problem();
+			problem.fileWrite(problem.uniqueStringListCreation(Integer.parseInt(stringX)));
 		}
 	}
 
 	@Override
-	public String startProcceding(final int count) {
+	public List<String> uniqueStringListCreation(final int count) {
 		List<String> list = new ArrayList<>();
 		String temp = null;
 
-		for (int i = 0; count > 0 && count <= 230 && i < count; i++) {
+		for (int i = 0; count > 0 && count <= MAX_COUNT && i < count; i++) {
 			temp = stringGenaration();
 			if (!list.contains(temp)) {
 				list.add(temp);
@@ -35,23 +36,20 @@ public class Problem implements ProblemInterface{
 				i--;
 			}
 		}
-
-		return fileWrite(list);
+		return list;
 	}
 
 	@Override
-	public String fileWrite(final List<String> list) {
-		if (!list.isEmpty()) {
+	public void fileWrite(final List<String> list) {
+		if (list != null && !list.isEmpty()) {
 			try (FileWriter myWriter = new FileWriter(FILE_NAME)) {
 				for (String str : list) {
 					myWriter.write(str + "\n");
 				}
-				return SUCCESS;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		return FAILED;
 	}
 
 	@Override
